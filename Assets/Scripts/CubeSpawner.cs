@@ -8,14 +8,15 @@ public class CubeSpawner : MonoBehaviour
 {
     [SerializeField] private BoxCollider _spawnZoneCollider;
     [SerializeField] private GameObject _cubePrefab;
-
+    [SerializeField] private Transform _poolContainer;
+    
     [SerializeField] private float _spawnInterval;
     
     private float _spawnTimer;
 
     private void Start()
     {
-        PoolManager.WarmPool(_cubePrefab, 10);
+        PoolManager.WarmPool(_cubePrefab, 10,_poolContainer);
         SpawnCube();
     }
 

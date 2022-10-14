@@ -28,13 +28,13 @@ public class PoolManager : Singleton<PoolManager>
 		}
 	}
 
-	public void warmPool(GameObject prefab, int size)
+	public void warmPool(GameObject prefab, int size, Transform parent)
 	{
 		if(prefabLookup.ContainsKey(prefab))
 		{
 			throw new Exception("Pool for prefab " + prefab.name + " has already been created");
 		}
-		var pool = new ObjectPool<GameObject>(() => { return InstantiatePrefab(prefab); }, size);
+		var pool = new ObjectPool<GameObject>(() => { return InstantiatePrefab(prefab,parent); }, size);
 		prefabLookup[prefab] = pool;
 
 		dirty = true;
@@ -49,7 +49,7 @@ public class PoolManager : Singleton<PoolManager>
 	{
 		if (!prefabLookup.ContainsKey(prefab))
 		{
-			WarmPool(prefab, 1);
+			WarmPool(prefab, 1,transform);
 		}
 
 		var pool = prefabLookup[prefab];
@@ -80,9 +80,9 @@ public class PoolManager : Singleton<PoolManager>
 	}
 
 
-	private GameObject InstantiatePrefab(GameObject prefab)
+	private GameObject InstantiatePrefab(GameObject prefab, Transform parent)
 	{
-		var go = Instantiate(prefab) as GameObject;
+		var go = Instantiate(prefab,parent) as GameObject;
 		if (root != null) go.transform.parent = root;
 		return go;
 	}
@@ -97,9 +97,9 @@ public class PoolManager : Singleton<PoolManager>
 
 	#region Static API
 
-	public static void WarmPool(GameObject prefab, int size)
+	public static void WarmPool(GameObject prefab, int size, Transform parent)
 	{
-		Instance.warmPool(prefab, size);
+		Instance.warmPool(prefab, size, parent);
 	}
 
 	public static GameObject SpawnObject(GameObject prefab)

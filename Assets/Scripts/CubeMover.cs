@@ -11,15 +11,12 @@ public class CubeMover : MonoBehaviour
 
     public Action OnCubeStopped;
 
-    private void OnEnable()
-    {
-        Move();
-    }
+    private void OnEnable() => Move();
 
-    public void Move()
+    private void Move()
     {
         Vector3 endPoint = transform.position;
         endPoint.x += _distance;
-        transform.DOMove(endPoint, _distance / _velocity).OnComplete((() => OnCubeStopped?.Invoke()));
+        transform.DOMove(endPoint, _distance / _velocity).SetEase(Ease.Linear).OnComplete((() => OnCubeStopped?.Invoke()));
     }
 }

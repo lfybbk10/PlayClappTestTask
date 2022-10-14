@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 10
-  _velocity: 1
+  _velocity: 3
 --- !u!114 &1084985909357102952
 MonoBehaviour:
   m_ObjectHideFlags: 0
